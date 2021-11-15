@@ -252,6 +252,7 @@ img{
 .home__container{
   height: calc(100vh - var(--header-height));
   align-content: center;
+  padding-right: 20px;
 }
 
 .home__title{
@@ -269,6 +270,10 @@ img{
 .home__img{
   width: 300px;
   justify-self: center;
+}
+.home__container .home__data input{
+  padding: .75rem 1rem;
+  border-radius: .3rem;
 }
 
 /*========== BUTTONS ==========*/
