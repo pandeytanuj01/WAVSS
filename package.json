@@ -1,0 +1,29 @@
+{
+  "name": "wavss",
+  "version": "1.0.0",
+  "description": "This system tends to replace the existing manual system for the scanning process which is time consuming, less interactive and highly expensive. The main features of this system will be creating reports and finding various types of vulnerabilities, storing Scanning data, process initiation, and after that it generates a report of whole scanned websites.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pandeyjiseeti/WAVSS.git"
+  },
+  "author": "SCafe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pandeyjiseeti/WAVSS/issues"
+  },
+  "homepage": "https://github.com/pandeyjiseeti/WAVSS#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.2.0",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
