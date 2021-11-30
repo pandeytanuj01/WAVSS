@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
-// create student schema & model
-const ScanSchema = new Schema({
-    organization: {
+const ScanSchema = Schema({
+    scanname: {
         type: String
     },
     url: {

@@ -268,7 +268,8 @@ img{
 }
 
 .home__img{
-  width: 300px;
+  margin-top: 50px;
+  width: 200px;
   justify-self: center;
 }
 .home__container .home__data input{
@@ -526,7 +527,7 @@ img{
   }
 
   .home__img{
-    width: 500px;
+    width: 300px;
   }
 
   .about__container,
