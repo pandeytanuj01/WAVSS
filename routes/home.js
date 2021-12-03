@@ -4,7 +4,7 @@ const Scan = require('../models/scan');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 // Welcome Page
-router.get('/', forwardAuthenticated, (req, res) => res.render('index'));
+router.get('/', forwardAuthenticated, (req, res) => res.render('index', {url : req.path}));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) =>

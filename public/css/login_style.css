@@ -1,6 +1,6 @@
 body {
-    height: 100vh;
-    background-color: #069C54 !important;
+    background-color: #069c5338 !important;
+    padding-top: 8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,7 +11,7 @@ body {
     overflow: hidden;
     border: 0 !important;
     border-radius: 20px !important;
-    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.24);
 }
 
 .img-left {

@@ -176,16 +176,13 @@ img{
   }
 }
 
-.nav__item{
-  margin-bottom: var(--mb-2);
-}
-
 .nav__link, .nav__logo, .nav__toggle{
   color: var(--text-color);
   font-weight: var(--font-medium);
 }
 
 .nav__logo:hover{
+  text-decoration: none;
   color: var(--first-color);
 }
 
@@ -194,6 +191,7 @@ img{
 }
 
 .nav__link:hover{
+  text-decoration: none;
   color: var(--first-color);
 }
 
@@ -400,6 +398,10 @@ img{
   font-size: var(--h3-font-size);
   color: var(--first-color);
   font-weight: var(--font-semi-bold);
+}
+
+.footer__logo:hover {
+  text-decoration: none;
 }
 
 .footer__description{
