@@ -10,17 +10,21 @@ const UserSchema = Schema({
     email: {
         type: String,
         required: [true, 'email field is required'],
-        unique : true
+        unique: true
     },
     username: {
         type: String,
         required: [true, 'username field is required'],
-        unique : true
+        unique: true
     },
     password: {
         type: String,
         required: [true, 'password field is required']
-    }
+    },
+    scans: [{
+        type: Schema.Types.ObjectId,
+        ref: 'scan'
+    }],
 });
 const User = mongoose.model('user', UserSchema);
 

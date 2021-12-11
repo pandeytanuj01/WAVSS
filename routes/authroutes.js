@@ -5,33 +5,47 @@ const passport = require('passport');
 
 // Load User model
 const User = require('../models/user');
-const { forwardAuthenticated } = require('../config/auth');
+const {
+    forwardAuthenticated
+} = require('../config/auth');
 
 // Login Page
-router.get('/login', forwardAuthenticated, (req, res) => {
-    const url = req.path
-    console.log(url)
-    res.render('login', { url: url });
-});
+router.get('/login', forwardAuthenticated, (req, res) => res.render('login', {
+    url: req.path
+}));
 
 // Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('registration', { url: req.path }));
+router.get('/register', forwardAuthenticated, (req, res) => res.render('registration', {
+    url: req.path
+}));
 
 // Register
 router.post('/register', (req, res) => {
-    const { name, email, password, username, confirmpassword } = req.body;
+    const {
+        name,
+        email,
+        password,
+        username,
+        confirmpassword
+    } = req.body;
     let errors = [];
 
     if (!name || !email || !password || !username || !confirmpassword) {
-        errors.push({ msg: 'Please enter all fields' });
+        errors.push({
+            msg: 'Please enter all fields'
+        });
     }
 
     if (password != confirmpassword) {
-        errors.push({ msg: 'Passwords do not match' });
+        errors.push({
+            msg: 'Passwords do not match'
+        });
     }
 
     if (password.length < 6) {
-        errors.push({ msg: 'Password must be at least 6 characters' });
+        errors.push({
+            msg: 'Password must be at least 6 characters'
+        });
     }
 
     if (errors.length > 0) {
@@ -44,9 +58,13 @@ router.post('/register', (req, res) => {
             confirmpassword
         });
     } else {
-        User.findOne({ email: email }).then(user => {
+        User.findOne({
+            email: email
+        }).then(user => {
             if (user) {
-                errors.push({ msg: 'Email already exists' });
+                errors.push({
+                    msg: 'Email already exists'
+                });
                 res.render('registration', {
                     errors,
                     name,

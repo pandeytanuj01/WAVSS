@@ -1,0 +1,65 @@
+  <!--========== navigation ==========-->
+  <div class="sidebaar">
+    <div class="logo-details">
+      <i class='logo-to-add'></i>
+      <span class="logo_name">WAVSS</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="/dashboard" class="active">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="/scan">
+          <i class='bx bx-scan'></i>
+          <span class="links_name">Scan</span>
+        </a>
+      </li>
+      <li>
+        <a href="/analysis">
+          <i class='bx bx-pie-chart-alt-2'></i>
+          <span class="links_name">Analysis</span>
+        </a>
+      </li>
+      <li class="log_out">
+        <a href="/auth/logout">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">Log out</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!--========== Top Menu==========-->
+  <section class="home-section">
+    <nav>
+      <div class="sidebaar-button">
+        <i class='bx bx-menu sidebaarBtn'></i>
+        <span class="dashboard"><%= title %> </span>
+      </div>
+      <% if (title === 'Analysis') { %>
+      <div class="search-box">
+        <input type="text" placeholder="Search...">
+        <i class='bx bx-search'></i>
+      </div>
+      <% } %>
+      <div class="profile-details">
+        <img src="/assets/img/profile.png" alt="">
+        <span class="admin_name"><%= user.username %> </span>
+        <i class='bx bx-chevron-down'></i>
+      </div>
+    </nav>
+
+    <script>
+      let sidebaar = document.querySelector(".sidebaar");
+      let sidebaarBtn = document.querySelector(".sidebaarBtn");
+      sidebaarBtn.onclick = function() {
+        sidebaar.classList.toggle("active");
+        if (sidebaar.classList.contains("active")) {
+          sidebaarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else
+          sidebaarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    </script>

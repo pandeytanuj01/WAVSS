@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ScanSchema = Schema({
-    scanname: {
-        type: String
+    scanname: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
     },
     url: {
         type: String,
@@ -14,10 +16,9 @@ const ScanSchema = Schema({
         type: String,
         required: [true, 'scantype field is required']
     },
-    reportpath: {
-        type: String,
-        required: [true, 'reportpath field is required']
-    }
+    reportpath: String,
+}, {
+    timestamps: true,
 });
 
 const Scan = mongoose.model('scan', ScanSchema);

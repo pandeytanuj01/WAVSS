@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/dashbstyle.css">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+</head>
+
+<body>
+  <%- include('./partials/nav_menu.ejs') %>
+  <div class="home-content" style="width: 100%;">
+    <div class="sales-boxes" style="width: 100%;">
+      <div class="recent-sales box" style="width: 100%;">
+        <%- include ('./partials/messages') %>
+        <form action='/scan' method="POST">
+          <div class="form-row mb-5 justify-content-around">
+            <div class="form-group">
+              <label for="scanname">Scan Name :</label>
+              <input class="form-control" type="text" name="scanname" required>
+            </div>
+            <div class="form-group">
+              <label for="url">Website URL :</label>
+              <input class="form-control" class="form-control" type="url" name="url" required>
+            </div>
+            <div class="form-group">
+              <label for="scantype">Type :</label>
+              <select class="form-control" name="scantype">
+                <option>Full Scan</option>
+                <option>Port/Service Scan</option>
+                <option>SQL Injection</option>
+                <option>CSRF Vulnerability Scan</option>
+              </select>
+            </div>
+          </div>
+          <div class="mx-auto" style="width:fit-content;">
+            <button class="btn btn-primary rounded-circle" style="width: 12rem; height: 12rem; font-size:xx-large;" type="submit">
+              Scan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
