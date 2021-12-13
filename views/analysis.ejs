@@ -36,7 +36,7 @@
                 <td><%= scan.scantype %></td>
                 <td>
                   <div class="row justify-content-around">
-                    <a class="btn-sm btn-success text-decoration-none" style="font-size: 1rem;" href="<%= scan.reportpath %>">View</a>
+                    <a class="btn-sm btn-success text-decoration-none" style="font-size: 1rem;" href="/view/<%= scan._id %>">View</a>
                     <a class="btn-sm btn-danger text-decoration-none" style="font-size: 1rem;" href="/delete/<%= scan._id %>">Delete</a>
                   </div>
                 </td>

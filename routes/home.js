@@ -24,7 +24,7 @@ function messageFlash(req, res, messageType, message, redirect = '/scan') {
     res.redirect(redirect);
 }
 
-function nmapScan(reportpath, options) {
+function nmapScan(req, res, reportpath, options) {
 
     var nmap = spawn('nmap', [options['1'], '-oX', `${reportpath}`, '--stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl', options['url']]);
 
@@ -38,6 +38,7 @@ function nmapScan(reportpath, options) {
 
     nmap.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
+        messageFlash(req, res, 'success_msg', 'Scan has been completed successfully.');
     });
 }
 
@@ -115,7 +116,7 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
             });
             switch (scantype) {
                 case 'Full Scan':
-                    nmapScan(reportpath, {
+                    nmapScan(req, res, reportpath, {
                         '1': '-vv',
                         'url': new URL(url).hostname
                     });
@@ -170,7 +171,37 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
                     scans: [scan._id]
                 }
             }).catch(err => console.log(err));
-            messageFlash(req, res, 'success_msg', 'Scan has been completed successfully.');
+        }
+    });
+});
+
+router.get('/view/:id', ensureAuthenticated, (req, res, next) => {
+    var htmlFile;
+    Scan.findById(req.params.id, async (err, scan) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            });
+        } else {
+            console.log(scan);
+            var dirpath = path.join(__dirname, '../');
+            htmlFile = `${req.user._id}-${scan.scanname}.html`;
+            exec(`xsltproc -o ./public/html/${htmlFile} ${dirpath}/public/xsl/nmap-bootstrap.xsl ./${scan.reportpath.split('\\/')[1]}`, (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+                res.render('scanfile', {
+                    title: scan.scanname,
+                    file: htmlFile,
+                    user: req.user,
+                });
+            });
         }
     });
 });
@@ -181,12 +212,19 @@ router.get('/delete/:id', ensureAuthenticated, (req, res, next) => {
         Scan.findOneAndDelete({
             _id: req.params.id
         }).then(async (scan) => {
+            var dirpath = path.join(__dirname, '../');
+            htmlFile = `${req.user._id}-${scan.scanname}.html`;
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: {
-                    scans: scan._id 
+                    scans: scan._id
                 }
             });
             fs.unlink(scan.reportpath, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            fs.unlink(`${dirpath}/public/html/${htmlFile}`, (err) => {
                 if (err) {
                     console.log(err);
                 }

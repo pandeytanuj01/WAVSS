@@ -2,3 +2,4 @@ routes/dist/*
 models/dist/*
 reports/*
 .vscode/settings.json
+public/html/*
