@@ -109,6 +109,14 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
         } else if (doc) {
             messageFlash(req, res, 'error_msg', 'Scan Already Exists. Please use a different Scan Name.');
         } else {
+            if (!fs.existsSync(`${dirpath}/reports/`)) {
+                fs.mkdir(`${dirpath}/reports/`, (err) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log('Directory created successfully!');
+                });
+            }
             fs.open(reportpath, 'w', (err, fd) => {
                 if (err) {
                     console.log(err);
@@ -186,6 +194,14 @@ router.get('/view/:id', ensureAuthenticated, (req, res, next) => {
             console.log(scan);
             var dirpath = path.join(__dirname, '../');
             htmlFile = `${req.user._id}-${scan.scanname}.html`;
+            if (!fs.existsSync(`${dirpath}/public/html/`)) {
+                fs.mkdir(`${dirpath}/public/html/`, (err) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log('Directory created successfully!');
+                });
+            }
             exec(`xsltproc -o ./public/html/${htmlFile} ${dirpath}/public/xsl/nmap-bootstrap.xsl ./${scan.reportpath.split('\\/')[1]}`, (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error.message}`);
