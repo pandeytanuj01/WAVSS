@@ -3,3 +3,7 @@ models/dist/*
 reports/*
 .vscode/settings.json
 public/html/*
+config/dist/*
+test/dist/*
+node_modules/*
+

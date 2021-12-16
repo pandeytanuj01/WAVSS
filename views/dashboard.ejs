@@ -66,7 +66,7 @@
 
     <!--========== Sales Box ==========-->
     <div class="sales-boxes">
-      <div class="recent-sales box">
+      <div class="recent-sales box" height="400">
         <div class="title mb-3">Recent Scans</div>
         <div class="sales-details mb-2">
           <table class="table table-sm table-hover table-borderless">
@@ -97,24 +97,69 @@
 
       <!--========== Top Sales ==========-->
 
-      <div class="top-sales box">
+      <div class="top-sales box h-25 overflow-hidden">
         <div class="title">Suggestions</div>
+        <marquee height="400" direction="up" scrollamount="3">
+          <h4>Prevent an SQL Injection</h4>
+          <ul>
+            <li>The best possible way to prevent SQL Injection attacks is input validation and parametrized queries including prepared statements. </li>
+            <li>The application code should never use the input directly.</li>
+            <li>The developer must sanitize all input, not only web form inputs such as login forms.</li>
+            <li>They must remove potential malicious code elements such as single quotes.</li>
+            <li>It is also turn off the visibility of database errors on production sites. </li>
+            <li>Database errors can be used with SQL Injection to gain information about your database.</li>
+          </ul>
 
-        </ul>
+          <h4>Prevent a Broken authentication</h4>
+          <ul>
+            <li>Where possible, implement multi-factor authentication to prevent automated, credential stuffing, brute force, and stolen credential re-use attacks.</li>
+            <li>Do not ship or deploy with any default credentials, particularly for admin users. </li>
+            <li>Ensure registration, credential recovery, and API pathways are hardened against account enumeration attacks by using the same messages for all outcomes.</li>
+            <li>Limit or increasingly delay failed login attempts.</li>
+            <li>Log all failures and alert administrators when credential stuffing, brute force, or other attacks are detected.</li>
+          </ul>
+
+          <h4>Prevention of IDOR Vulnerability</h4>
+          <ul>
+            <li>Developers should avoid displaying private object references such as keys or file names.</li>
+            <li>Validation of Parameters should be properly implemented.</li>
+            <li>Verification of all the Referenced objects should be done.</li>
+            <li>Tokens should be generated in such a way that it should only be mapped to the user and should not be public.</li>
+          </ul>
+
+          <h4>Prevent Security Misconfiguration</h4>
+          <ul>
+            <li>Disable administration interfaces.</li>
+            <li>Disable debugging.</li>
+            <li>Disable use of default accounts/passwords.</li>
+            <li>Configure server to prevent unauthorized access, directory listing, etc.</li>
+            <li>Consider running scans and doing audits periodically to help detect future misconfigurations or missing patches.</li>
+          </ul>
+
+        </marquee>
       </div>
     </div>
   </div>
   </section>
 
   <script>
-    let sidebaar = document.querySelector(".sidebaar");
-    let sidebaarBtn = document.querySelector(".sidebaarBtn");
+    sidebaar = document.querySelector(".sidebaar");
+    sidebaarBtn = document.querySelector(".sidebaarBtn");
     sidebaarBtn.onclick = function() {
       sidebaar.classList.toggle("active");
       if (sidebaar.classList.contains("active")) {
         sidebaarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
       } else
         sidebaarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    }
+
+
+    var marquee = document.getElementsByTagName('marquee')[0]
+    marquee.onmouseover = function() {
+      marquee.stop();
+    }
+    marquee.onmouseout = function() {
+      marquee.start();
     }
   </script>
 

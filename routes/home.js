@@ -15,6 +15,9 @@ const User = require('../models/user');
 const {
     ObjectID
 } = require('bson');
+const {
+    error
+} = require('console');
 
 function messageFlash(req, res, messageType, message, redirect = '/scan') {
     req.flash(
@@ -24,9 +27,22 @@ function messageFlash(req, res, messageType, message, redirect = '/scan') {
     res.redirect(redirect);
 }
 
-function nmapScan(req, res, reportpath, options) {
+async function nmapScan(req, res, reportpath, options, ports = '') {
+    var args = [];
 
-    var nmap = spawn('nmap', [options['1'], '-oX', `${reportpath}`, '--stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl', options['url']]);
+    if (ports === 'all') {
+        options.splice(options.length - 1, 0, '-p-');
+    } else if (ports === 'top') {
+        options.splice(options.length - 1, 0, '-F')
+    } else if (ports === 'none') {} else {
+        options.splice(options.length - 1, 0, `-p${ports}`);
+    }
+
+    args.push(...options);
+
+    args.push('-vv', '-oX', `${reportpath}`, '--stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl');
+
+    var nmap = spawn('nmap', args);
 
     nmap.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
@@ -53,7 +69,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
         user: req.user,
-        scans: scans_array
+        scans: scans_array.slice(0,5)
     });
 });
 
@@ -88,6 +104,7 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
     const {
         scanname,
         url,
+        ports,
         scantype
     } = req.body;
     const user = new ObjectID(req.user._id);
@@ -95,6 +112,7 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
         scanname,
         user,
         url,
+        ports,
         scantype,
     });
     dirpath = path.join(__dirname, '../');
@@ -124,52 +142,27 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
             });
             switch (scantype) {
                 case 'Full Scan':
-                    nmapScan(req, res, reportpath, {
-                        '1': '-vv',
-                        'url': new URL(url).hostname
-                    });
+                    await nmapScan(req, res, reportpath, [
+                        '-T3', '-sV', '-Pn', '--script=nmap-vulners/vulners,scipag_vulscan/vulscan', new URL(url).hostname
+                    ], ports);
                     break;
 
-                case 'Port/Service Scan':
-                    exec(`nmap -oX ${reportpath} --stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl niituniversity.in`, (error, stdout, stderr) => {
-                        if (error) {
-                            console.log(`error: ${error.message}`);
-                            return;
-                        }
-                        if (stderr) {
-                            console.log(`stderr: ${stderr}`);
-                            return;
-                        }
-                        console.log(`stdout: ${stdout}`);
-                    });
+                case 'Service Scan':
+                    await nmapScan(req, res, reportpath, [
+                        '-T3', '-sV', '-Pn', new URL(url).hostname
+                    ], ports);
                     break;
 
                 case 'SQL Injection':
-                    exec(`nmap -oX ${reportpath} --stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl niituniversity.in`, (error, stdout, stderr) => {
-                        if (error) {
-                            console.log(`error: ${error.message}`);
-                            return;
-                        }
-                        if (stderr) {
-                            console.log(`stderr: ${stderr}`);
-                            return;
-                        }
-                        console.log(`stdout: ${stdout}`);
-                    });
+                    await nmapScan(req, res, reportpath, [
+                        '-T3', '-sV', '-Pn', '--script=http-sql-injection', new URL(url).hostname
+                    ], ports);
                     break;
 
                 case 'CSRF Vulnerability Scan':
-                    exec(`nmap -oX ${reportpath} --stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl niituniversity.in`, (error, stdout, stderr) => {
-                        if (error) {
-                            console.log(`error: ${error.message}`);
-                            return;
-                        }
-                        if (stderr) {
-                            console.log(`stderr: ${stderr}`);
-                            return;
-                        }
-                        console.log(`stdout: ${stdout}`);
-                    });
+                    await nmapScan(req, res, reportpath, [
+                        '-T3', '-sV', '-Pn', '--script=http-csrf.nse', new URL(url).hostname
+                    ], ports);
                     break;
             }
             scan.reportpath = reportpath;
@@ -181,6 +174,11 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
             }).catch(err => console.log(err));
         }
     });
+});
+
+router.get('/download/:filename', ensureAuthenticated, (req, res, next) => {
+    var dirpath = path.join(__dirname, '../');
+    res.download(`${dirpath}/public/html/${req.params.filename}`);
 });
 
 router.get('/view/:id', ensureAuthenticated, (req, res, next) => {
@@ -205,6 +203,7 @@ router.get('/view/:id', ensureAuthenticated, (req, res, next) => {
             exec(`xsltproc -o ./public/html/${htmlFile} ${dirpath}/public/xsl/nmap-bootstrap.xsl ./${scan.reportpath.split('\\/')[1]}`, (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error.message}`);
+                    messageFlash(req, res, 'error_msg', 'An Error Occurred. Please try again later.', '/analysis');
                     return;
                 }
                 if (stderr) {

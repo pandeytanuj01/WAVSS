@@ -21,11 +21,15 @@
           <div class="form-row mb-3 justify-content-around">
             <div class="form-group">
               <label for="scanname">Scan Name :</label>
-              <input class="form-control" type="text" name="scanname" required>
+              <input class="form-control" type="text" name="scanname" placeholder="Example Scan" required>
             </div>
             <div class="form-group">
               <label for="url">Website URL :</label>
-              <input class="form-control" class="form-control" type="url" name="url" required>
+              <input class="form-control" class="form-control" placeholder="e.g. http://example.com" type="url" name="url" required>
+            </div>
+            <div class="form-group">
+              <label for="ports">Ports :</label>
+              <input class="form-control" class="form-control" placeholder="e.g. 21,80,443 or all or top" type="text" name="ports" required>
             </div>
             <div class="form-group">
               <label for="scantype">Type :</label>

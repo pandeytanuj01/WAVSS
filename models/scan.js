@@ -12,6 +12,10 @@ const ScanSchema = Schema({
         type: String,
         required: [true, 'url field is required']
     },
+    ports: {
+        type: String,
+        required: [true, 'port field is required']
+    },
     scantype: {
         type: String,
         required: [true, 'scantype field is required']
