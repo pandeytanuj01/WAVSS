@@ -69,7 +69,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
         user: req.user,
-        scans: scans_array.slice(0,5)
+        scans: scans_array.slice(0, 5)
     });
 });
 

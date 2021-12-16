@@ -6,4 +6,4 @@ public/html/*
 config/dist/*
 test/dist/*
 node_modules/*
-
+dist/*
