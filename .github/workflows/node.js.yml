@@ -29,6 +29,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+      env: 
+        CI: true
     - name: Send mailer
       if: ${{ failure() }}
       uses: devellany/send-mail@v1.0.2
