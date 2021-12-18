@@ -3,20 +3,25 @@ process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('./testApp');
-const conn = require('../config/database');
+const mongoose = require('mongoose');
 
 describe('POST /scans', () => {
     before((done) => {
-        conn.connect()
-            .then(() => done())
-            .catch((err) => done(err));
-    })
+        mongoose.connect('mongodb+srv://admin:admin123@wavss-cluster.xco7y.mongodb.net/WAVSS-Test?retryWrites=true&w=majority', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, () => {
+            mongoose.connection.db.dropCollection('scans').then(() => {
+                done();
+            })
+        });
+    });
 
     after((done) => {
-        conn.close()
+        mongoose.connection.close()
             .then(() => done())
             .catch((err) => done(err));
-    })
+    });
 
     it('OK, creating a new Scan works', (done) => {
         request(app).post('/scans')
@@ -40,19 +45,17 @@ describe('POST /scans', () => {
     });
 
     it('Fail, Scan requires scanname', (done) => {
-        request(app).post('/notes')
+        request(app).post('/scans')
             .send({
-                name: 'NOTE',
                 url: 'http://example.com/',
                 ports: '80',
                 scantype: 'Full Scan',
             })
             .then((res) => {
                 const body = res.body;
-                expect(body.errors.text.name)
-                    .to.equal('ValidatorError')
+                expect(body.errors.scanname.name).to.equal('ValidatorError');
                 done();
             })
             .catch((err) => done(err));
     });
-})
+});

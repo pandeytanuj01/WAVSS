@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ScanSchema = Schema({
-    scanname: String,
+    scanname: {
+        type: String,
+        required: [true, 'scanname field is required']
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: "user"

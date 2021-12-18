@@ -3,22 +3,27 @@ process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('./testApp');
-const conn = require('../config/database');
+const mongoose = require('mongoose');
 
 describe('GET /scans', () => {
     before((done) => {
-        conn.connect()
-            .then(() => done())
-            .catch((err) => done(err));
-    })
+        mongoose.connect('mongodb+srv://admin:admin123@wavss-cluster.xco7y.mongodb.net/WAVSS-Test?retryWrites=true&w=majority', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, () => {
+            mongoose.connection.db.dropCollection('scans').then(() => {
+                done();
+            })
+        });
+    });
 
     after((done) => {
-        conn.close()
+        mongoose.connection.close()
             .then(() => done())
             .catch((err) => done(err));
-    })
+    });
 
-    it('OK, Database has no scans', (done) => {
+    it('OK, /scan has no scans', (done) => {
         request(app).get('/scans')
             .then((res) => {
                 const body = res.body;
@@ -28,7 +33,7 @@ describe('GET /scans', () => {
             .catch((err) => done(err));
     });
 
-    it('OK, getting notes has 1 scan', (done) => {
+    it('OK, /scan has 1 scan', (done) => {
         request(app).post('/scans')
             .send({
                 scanname: 'Test Scan',
@@ -41,8 +46,8 @@ describe('GET /scans', () => {
                     .then((res) => {
                         const body = res.body;
                         expect(body.length).to.equal(1);
-                        done();
-                    })
+                    });
+                done();
             })
             .catch((err) => done(err));
     });
