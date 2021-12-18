@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('./config/database').connect();
+const mongoose = require('./config/database');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');

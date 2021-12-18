@@ -116,7 +116,7 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
         scantype,
     });
     dirpath = path.join(__dirname, '../');
-    reportpath = dirpath + `/reports/${req.user._id}-${scanname}.xml`;
+    reportpath = dirpath + `reports/${req.user._id}-${scanname}.xml`;
     Scan.findOne({
         reportpath: reportpath
     }, async (err, doc) => {
@@ -147,7 +147,7 @@ router.post('/scan', ensureAuthenticated, (req, res, next) => {
                     ], ports);
                     break;
 
-                case 'Service Scan':
+                case 'Port/Service Scan':
                     await nmapScan(req, res, reportpath, [
                         '-T3', '-sV', '-Pn', new URL(url).hostname
                     ], ports);
@@ -200,7 +200,7 @@ router.get('/view/:id', ensureAuthenticated, (req, res, next) => {
                     console.log('Directory created successfully!');
                 });
             }
-            exec(`xsltproc -o ./public/html/${htmlFile} ${dirpath}/public/xsl/nmap-bootstrap.xsl ./${scan.reportpath.split('\\/')[1]}`, (error, stdout, stderr) => {
+            exec(`xsltproc -o ${dirpath}public/html/${htmlFile} ${dirpath}public/xsl/nmap-bootstrap.xsl ${dirpath + scan.reportpath.split('/').at(-2)+ '/' + scan.reportpath.split('/').at(-1)}`, (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error.message}`);
                     messageFlash(req, res, 'error_msg', 'An Error Occurred. Please try again later.', '/analysis');
