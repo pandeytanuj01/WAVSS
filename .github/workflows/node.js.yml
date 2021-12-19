@@ -43,7 +43,7 @@ jobs:
       with:
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wavss
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wavss:latest
         
     - name: Send mailer
       if: ${{ failure() }}
@@ -64,9 +64,9 @@ jobs:
         # Enter recipient emails and separated with 'comma'. (The prefix 'file://' if you want to read a file)
         to: ttanuj09@gmail.com
         # Enter the subject of the mail. (The prefix 'file://' if you want to read a file)
-        subject: Hello
+        subject: Build Failure
         # Enter the body of the mail. (The prefix 'file://' if you want to read a file)
-        body: Yellow
+        body: An Error ocurred in the job
         # Enter Content-Type HTTP header. (defaults to 'text/plain')
         contentType: text/plain
         attachments: '[{}]'
