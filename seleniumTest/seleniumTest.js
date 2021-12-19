@@ -1,5 +1,6 @@
 var webdriver = require("selenium-webdriver");
 var By = webdriver.By;
+require('chromedriver');
 
 async function regisloginnout() {
   var driver = new webdriver.Builder().forBrowser("chrome").build();
