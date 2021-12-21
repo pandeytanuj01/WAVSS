@@ -1,0 +1,255 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-12-21T09:07:30.137Z",
+    "end": "2021-12-21T09:07:31.602Z",
+    "duration": 1465,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "24716ea1-6880-4009-b588-f6f0c1b98583",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "bb469214-38e0-4f64-b471-aa1b15ef4b40",
+          "title": "GET /scans",
+          "fullFile": "C:\\Users\\ttanu\\Documents\\SemesterVII\\CapstoneII\\WAVSS\\test\\getScan.test.js",
+          "file": "\\test\\getScan.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"GET /scans\"",
+              "fullTitle": "GET /scans \"before all\" hook in \"GET /scans\"",
+              "timedOut": false,
+              "duration": 752,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "mongoose.connect('mongodb+srv://admin:admin123@wavss-cluster.xco7y.mongodb.net/WAVSS-Test?retryWrites=true&w=majority', {\n    useNewUrlParser: true,\n    useUnifiedTopology: true\n}, () => {\n    mongoose.connection.db.dropCollection('scans').then(() => {\n        done();\n    })\n});",
+              "err": {},
+              "uuid": "78870761-c025-4fc6-b000-48cc3c1dcc10",
+              "parentUUID": "bb469214-38e0-4f64-b471-aa1b15ef4b40",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"GET /scans\"",
+              "fullTitle": "GET /scans \"after all\" hook in \"GET /scans\"",
+              "timedOut": false,
+              "duration": 5,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "mongoose.connection.close()\n    .then(() => done())\n    .catch((err) => done(err));",
+              "err": {},
+              "uuid": "2f77d76c-ee98-4252-9fed-90f32a0ec2ee",
+              "parentUUID": "bb469214-38e0-4f64-b471-aa1b15ef4b40",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "OK, /scan has no scans",
+              "fullTitle": "GET /scans OK, /scan has no scans",
+              "timedOut": false,
+              "duration": 64,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "request(app).get('/scans')\n    .then((res) => {\n        const body = res.body;\n        expect(body.length).to.equal(0);\n        done();\n    })\n    .catch((err) => done(err));",
+              "err": {},
+              "uuid": "82eb64b0-5df8-4ce9-b829-661023fbfad5",
+              "parentUUID": "bb469214-38e0-4f64-b471-aa1b15ef4b40",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "OK, /scan has 1 scan",
+              "fullTitle": "GET /scans OK, /scan has 1 scan",
+              "timedOut": false,
+              "duration": 110,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "request(app).post('/scans')\n    .send({\n        scanname: 'Test Scan',\n        url: 'http://example.com/',\n        ports: '80',\n        scantype: 'Full Scan',\n    })\n    .then((_) => {\n        request(app).get('/scans')\n            .then((res) => {\n                const body = res.body;\n                expect(body.length).to.equal(1);\n            });\n        done();\n    })\n    .catch((err) => done(err));",
+              "err": {},
+              "uuid": "60d7a69b-3efa-4372-8714-c165825bbc5d",
+              "parentUUID": "bb469214-38e0-4f64-b471-aa1b15ef4b40",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "82eb64b0-5df8-4ce9-b829-661023fbfad5",
+            "60d7a69b-3efa-4372-8714-c165825bbc5d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 174,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        },
+        {
+          "uuid": "1ac64ae1-c20b-4b0d-961a-b1802cc22ffd",
+          "title": "POST /scans",
+          "fullFile": "C:\\Users\\ttanu\\Documents\\SemesterVII\\CapstoneII\\WAVSS\\test\\postScan.test.js",
+          "file": "\\test\\postScan.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"POST /scans\"",
+              "fullTitle": "POST /scans \"before all\" hook in \"POST /scans\"",
+              "timedOut": false,
+              "duration": 437,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "mongoose.connect('mongodb+srv://admin:admin123@wavss-cluster.xco7y.mongodb.net/WAVSS-Test?retryWrites=true&w=majority', {\n    useNewUrlParser: true,\n    useUnifiedTopology: true\n}, () => {\n    mongoose.connection.db.dropCollection('scans').then(() => {\n        done();\n    })\n});",
+              "err": {},
+              "uuid": "7efe2cac-8d19-4db4-a901-2547155a6ae2",
+              "parentUUID": "1ac64ae1-c20b-4b0d-961a-b1802cc22ffd",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"POST /scans\"",
+              "fullTitle": "POST /scans \"after all\" hook in \"POST /scans\"",
+              "timedOut": false,
+              "duration": 4,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "mongoose.connection.close()\n    .then(() => done())\n    .catch((err) => done(err));",
+              "err": {},
+              "uuid": "95f366ae-0e82-415b-aeab-807a9126bbf5",
+              "parentUUID": "1ac64ae1-c20b-4b0d-961a-b1802cc22ffd",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "OK, creating a new Scan works",
+              "fullTitle": "POST /scans OK, creating a new Scan works",
+              "timedOut": false,
+              "duration": 67,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "request(app).post('/scans')\n    .send({\n        scanname: 'Test Scan',\n        url: 'http://example.com/',\n        ports: '80',\n        scantype: 'Full Scan',\n    })\n    .then((res) => {\n        const body = res.body;\n        expect(body).to.contain.property('_id');\n        expect(body).to.contain.property('scanname');\n        expect(body).to.contain.property('url');\n        expect(body).to.contain.property('user');\n        expect(body).to.contain.property('ports');\n        expect(body).to.contain.property('scantype');\n        done();\n    })\n    .catch((err) => done(err));",
+              "err": {},
+              "uuid": "0c35efac-faa0-4869-b8e9-21768c4aef38",
+              "parentUUID": "1ac64ae1-c20b-4b0d-961a-b1802cc22ffd",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Fail, Scan requires scanname",
+              "fullTitle": "POST /scans Fail, Scan requires scanname",
+              "timedOut": false,
+              "duration": 8,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "request(app).post('/scans')\n    .send({\n        url: 'http://example.com/',\n        ports: '80',\n        scantype: 'Full Scan',\n    })\n    .then((res) => {\n        const body = res.body;\n        expect(body.errors.scanname.name).to.equal('ValidatorError');\n        done();\n    })\n    .catch((err) => done(err));",
+              "err": {},
+              "uuid": "865927ad-b179-47be-86cb-cac90e47064b",
+              "parentUUID": "1ac64ae1-c20b-4b0d-961a-b1802cc22ffd",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "0c35efac-faa0-4869-b8e9-21768c4aef38",
+            "865927ad-b179-47be-86cb-cac90e47064b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 75,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 60000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "9.1.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.0.1"
+    },
+    "marge": {
+      "options": {
+        "charts": "true"
+      },
+      "version": "6.0.1"
+    }
+  }
+}
